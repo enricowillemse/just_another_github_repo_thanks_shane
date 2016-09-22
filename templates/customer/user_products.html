@@ -1,0 +1,95 @@
+{% extends "CustomerBase.html" %}
+{% load staticfiles %}
+{% block content %}
+    <section class="demo-hero-5" style="height: 200px!important; margin-top: 70px!important">
+        <div class="container-xs-height full-height">
+            <div class="col-xs-height col-middle text-center">
+                <h1 class="inner p-b-50 m-b-20">User Products</h1>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+
+        {% if user_products %}
+            <div class="panel panel-group panel-transparent" data-toggle="collapse" id=
+                    "accordion">
+
+                {% for product in user_products %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <button class="btn btn-danger btn-xs pull-right" style="margin-right: 30px"
+                                        data-toggle="modal"
+                                        data-target="#DeleteProductModal"
+                                        onclick="setDeleteProduct('{{ product.id }}');">Remove
+                                </button>
+                                <a class="collapsed" data-parent="#accordion" data-toggle=
+                                        "collapse" href="#collapse{{ product.id }}">{{ product.title }} -
+                                    R{{ product.cost_price }}</a>
+                            </h4>
+
+                        </div>
+                        <div class="panel-collapse collapse" id="collapse{{ product.id }}">
+                            <div class="panel-body">
+                                <h4>{{ product.title }} - {{ product.barcode }}</h4>
+                                <p>{{ product.description|safe }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <strong>There are no products in your database.</strong>
+        {% endif %}
+    </div>
+
+    <div class="modal fade fill-in" id="DeleteProductModal" tabindex="-1" role="dialog"
+         aria-labelledby="modalFillInLabel"
+         aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close"></i>
+        </button>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <form action="/user_products/remove_product" method="post">
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-9">
+                                <h2>Are You Sure You Want To Remove This Product From Your Store?</h2>
+                            </div>
+                            <input type="hidden" id="removeProductId" name="id">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 text-center col-md-offset-9">
+                                <button type="submit" class="btn btn-primary btn-lg btn-large fs-15 ">Remove
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function setDeleteProduct(id) {
+            $("#removeProductId").val(id);
+        }
+    </script>
+{% endblock %}

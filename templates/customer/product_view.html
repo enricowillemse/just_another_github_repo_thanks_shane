@@ -1,0 +1,45 @@
+{% extends "CustomerBase.html" %}
+{% load staticfiles %}
+{% block content %}
+    <section class="demo-hero-5" style="height: 200px!important; margin-top: 70px!important">
+        <div class="container-xs-height full-height">
+            <div class="col-xs-height col-middle text-center">
+
+            </div>
+        </div>
+    </section>
+    <div class="container">
+    <div class="row">
+
+    <div class="col-md-3">
+        <p class="lead">Categories</p>
+        <div class="list-group">
+            <a href="#" class="list-group-item active">Category 1</a>
+            <a href="#" class="list-group-item">Category 2</a>
+            <a href="#" class="list-group-item">Category 3</a>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+
+        <div class="col-md-6">
+            <img class="img-responsive" src="http://placehold.it/400x500" alt="">
+        </div>
+        <div class="col-md-6">
+            <div class="caption-full">
+                <h4 class="pull-right">R{{ product.cost_price }}</h4>
+                <h4><a href="#">{{ product.title }}</a>
+                </h4>
+                <p>{{ product.description|safe }}</p>
+                <a class="btn btn-primary pull-right" href="/product_view/add_to_products/{{ product.id }}">Add To
+                    Store</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+
+{% endblock %}

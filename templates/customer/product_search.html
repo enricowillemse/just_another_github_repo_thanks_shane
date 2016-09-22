@@ -1,0 +1,211 @@
+{% extends "CustomerBase.html" %}
+{% load staticfiles %}
+{% block content %}
+    <section class="demo-hero-5" style="height: 200px!important; margin-top: 70px!important">
+        <div class="container-xs-height full-height">
+            <div class="col-xs-height col-middle text-center">
+                <h1 class="inner p-b-50 m-b-20">Search</h1>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <p class="lead">Categories</p>
+                <div class="list-group">
+                    <a href="#" class="list-group-item">Category 1</a>
+                    <a href="#" class="list-group-item">Category 2</a>
+                    <a href="#" class="list-group-item">Category 3</a>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+
+
+                <div class="row">
+
+                    {% if products %}
+
+                        {% for product in products %}
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="http://placehold.it/320x350" alt="">
+                                    <div class="caption">
+                                        <h4 class="pull-right">R{{ product.cost_price }}</h4>
+                                        <h4>
+                                            <a href="/product_view/{{ product.id }}">{{ product.title|truncatechars:25 }}</a>
+                                        </h4>
+                                        <p>{{ product.description|safe|truncatechars:100 }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal fade fill-in" id="AddProductModal" tabindex="-1" role="dialog"
+         aria-labelledby="modalFillInLabel"
+         aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close"></i>
+        </button>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="text-left p-b-5"><span class="semi-bold">Create</span> New Function</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="/products/new" method="post">
+
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Name" name="name" class="form-control input-lg">
+                            </div>
+
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Product Code" class="form-control input-lg"
+                                       name="product_code">
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Category" name="category"
+                                       class="form-control input-lg">
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Brand" name="brand" class="form-control input-lg">
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg btn-large fs-15">Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade fill-in" id="EditProductModal" tabindex="-1" role="dialog"
+         aria-labelledby="modalFillInLabel"
+         aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close"></i>
+        </button>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="text-left p-b-5"><span class="semi-bold">Edit</span> Product</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="/products/update" method="post">
+
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-9">
+                                <input type="text" id="EditName" placeholder="Name" name="name"
+                                       class="form-control input-lg">
+                            </div>
+
+                            <div class="col-md-9">
+                                <input disabled type="text" id="EditProductCode" placeholder="Product Code"
+                                       class="form-control input-lg"
+                                       name="product_code">
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Category" id="EditCategory" name="category"
+                                       class="form-control input-lg">
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" placeholder="Brand" id="EditBrand" name="brand"
+                                       class="form-control input-lg">
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg btn-large fs-15">Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade fill-in" id="DeleteProductModal" tabindex="-1" role="dialog"
+         aria-labelledby="modalFillInLabel"
+         aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close"></i>
+        </button>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <form action="/product/delete" method="post">
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-md-9">
+                                <h2>Are You Sure You Want To Remove This Product?</h2>
+                            </div>
+                            <input type="hidden" id="url" name="url">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 text-center col-md-offset-9">
+                                <button type="submit" class="btn btn-primary btn-lg btn-large fs-15 ">Remove
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function setProductCode(id) {
+            $("#product_code").val(id);
+        }
+
+        function setDeleteProduct(id) {
+            $("#delete_product").val(id);
+        }
+
+        function setEditProduct(name, product_code, category, brand) {
+            $("#EditName").val(name);
+            $("#EditProductCode").val(product_code);
+            $("#EditCategory").val(category);
+            $("#EditBrand").val(brand);
+        }
+
+        function setDeleteProductUrl(id) {
+            $("#delete_product_url").val(id);
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "Base.html" %}
+
+{% block content %}
+    <section class="demo-hero-5" style="height: 200px!important; margin-top: 70px!important">
+        <div class="container-xs-height full-height">
+            <div class="col-xs-height col-middle text-center">
+                <h1 class="inner p-b-50 m-b-20">Login</h1>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <form method="post" class="pull-center-inner" style="min-width: 350px" action="/register/">
+            {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+            {% csrf_token %}
+            <div class="form-group form-group-default">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Email</label>
+                <input type="text" name="email" class="form-control" required>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Password</label>
+                <input type="password" name="password1" class="form-control" required>
+            </div>
+            <div class="form-group form-group-default">
+                <label>Password</label>
+                <input type="password" name="password2" class="form-control" required>
+            </div>
+
+            <input type="submit" class="pull-right" value="register"/>
+            <input type="hidden" name="next" value="/user_apps"/>
+        </form>
+    </div>
+
+{% endblock %}
